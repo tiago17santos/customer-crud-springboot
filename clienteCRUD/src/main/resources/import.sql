@@ -1,0 +1,10 @@
+INSERT INTO tb_product (name, cpf, income, birthDate, children) VALUES ("Tiago Alberto","123456789100",6550.0,"2000-03-17T13:00:00Z",0);
+INSERT INTO tb_product (name, cpf, income, birthDate, children) VALUES ("João Pedro","123456789100",3500.0,"2001-01-20T13:00:00Z",2);
+INSERT INTO tb_product (name, cpf, income, birthDate, children) VALUES ("Tiago Augusto","123456789100",4230.0,"2005-09-25T13:00:00Z",1);
+INSERT INTO tb_product (name, cpf, income, birthDate, children) VALUES ("Lucas Silva","123456789100",5500.0,"2004-07-12T13:00:00Z",0);
+INSERT INTO tb_product (name, cpf, income, birthDate, children) VALUES ("Matias Abreu","123456789100",7710.0,"2000-08-13T13:00:00Z",2);
+INSERT INTO tb_product (name, cpf, income, birthDate, children) VALUES ("Joabe Lima","123456789100",1350.0,"1999-04-19T13:00:00Z",1);
+INSERT INTO tb_product (name, cpf, income, birthDate, children) VALUES ("Rita de Cássia","123456789100",3700.0,"2002-02-25T13:00:00Z",0);
+INSERT INTO tb_product (name, cpf, income, birthDate, children) VALUES ("Bruna Jesus","123456789100",9990.0,"2004-04-09T13:00:00Z",3);
+INSERT INTO tb_product (name, cpf, income, birthDate, children) VALUES ("Julia Ribeiro","123456789100",1190.0,"1998-12-02T13:00:00Z",0);
+INSERT INTO tb_product (name, cpf, income, birthDate, children) VALUES ("Fernanda Cruz","123456789100",3000.0,"1999-11-30T13:00:00Z",4);
