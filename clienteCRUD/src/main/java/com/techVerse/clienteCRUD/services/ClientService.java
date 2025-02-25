@@ -2,8 +2,12 @@ package com.techVerse.clienteCRUD.services;
 
 import com.techVerse.clienteCRUD.entities.Client;
 import com.techVerse.clienteCRUD.repositories.ClientRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -17,8 +21,9 @@ public class ClientService {
 
 
     @Transactional(readOnly = true)
-    public List<Client> findAll() {
-        return clientRepository.findAll();
+    public Page<Client> findAll(Pageable pageable) {
+        Page<Client> clients = clientRepository.findAll(pageable);
+        return clients.map(client -> client);
     }
 
     @Transactional(readOnly = true)
@@ -43,7 +48,7 @@ public class ClientService {
         return clientRepository.save(result);
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(long id) {
         clientRepository.deleteById(id);
     }
