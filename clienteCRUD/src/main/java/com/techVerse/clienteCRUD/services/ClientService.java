@@ -4,12 +4,14 @@ import com.techVerse.clienteCRUD.dtos.ClientDto;
 import com.techVerse.clienteCRUD.entities.Client;
 import com.techVerse.clienteCRUD.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 
 @Service
 public class ClientService {
@@ -26,7 +28,7 @@ public class ClientService {
 
     @Transactional(readOnly = true)
     public ClientDto findById(long id) {
-        Client client = clientRepository.findById(id).orElseThrow();
+        Client client = clientRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
         return new ClientDto(client);
     }
 
@@ -46,9 +48,8 @@ public class ClientService {
             entity = clientRepository.save(entity);
             return new ClientDto(entity);
         }catch (RuntimeException e){
-            e.printStackTrace();
+            throw new ResourceNotFoundException("Produto não encontrado");
         }
-        return clientDto;
     }
 
     public void copyDtoToEntity(Client entity, ClientDto clientDto){
@@ -61,10 +62,12 @@ public class ClientService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(long id) {
-        try {
+        if(!clientRepository.existsById(id)){
+            throw new ResourceNotFoundException("Produto não encontrado");
+        }try {
             clientRepository.deleteById(id);
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (DataIntegrityViolationException e){
+            throw new DatabaseException("Falha de integridade referencial");
         }
     }
 
