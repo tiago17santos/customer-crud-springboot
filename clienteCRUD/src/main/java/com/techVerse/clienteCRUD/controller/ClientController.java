@@ -1,5 +1,6 @@
 package com.techVerse.clienteCRUD.controller;
 
+import com.techVerse.clienteCRUD.dtos.ClientDto;
 import com.techVerse.clienteCRUD.entities.Client;
 import com.techVerse.clienteCRUD.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ public class ClientController {
     private ClientService clientService;
 
     @GetMapping
-    public ResponseEntity<Page<Client>> getAllClients(Pageable pageable) {
-        Page<Client> clients = clientService.findAll(pageable);
+    public ResponseEntity<Page<ClientDto>> getAllClients(Pageable pageable) {
+        Page<ClientDto> clients = clientService.findAll(pageable);
         if (clients.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -30,13 +31,16 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Client> getClientById(@PathVariable long id) {
-        Optional<Client> client = clientService.findById(id);
-        return client.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ClientDto> getClientById(@PathVariable long id) {
+        ClientDto client = clientService.findById(id);
+        if(client == null ){
+            return ResponseEntity.notFound().build();
+        }
+        return  ResponseEntity.ok(client);
     }
 
     @PostMapping
-    public ResponseEntity<Client> createClient(@RequestBody Client client) {
+    public ResponseEntity<ClientDto> createClient(@RequestBody ClientDto client) {
         client = clientService.save(client);
         if(client == null){
             return ResponseEntity.badRequest().build();
@@ -47,7 +51,7 @@ public class ClientController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable long id, @RequestBody Client client) {
+    public ResponseEntity<ClientDto> updateClient(@PathVariable long id, @RequestBody ClientDto client) {
         client = clientService.update(id,client);
         if (client == null) {
             return ResponseEntity.notFound().build();
