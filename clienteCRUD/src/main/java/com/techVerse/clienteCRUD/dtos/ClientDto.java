@@ -3,7 +3,6 @@ package com.techVerse.clienteCRUD.dtos;
 import com.techVerse.clienteCRUD.entities.Client;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDate;
 
@@ -13,7 +12,6 @@ public class ClientDto {
     @NotBlank(message = "Campo requerido")
     private String name;
     private String cpf;
-    @Positive(message = "Sua renda deve ser positivo")
     private Double income;
     @PastOrPresent(message = "Data de nascimento deve ser menor ou igual a data atual")
     private LocalDate birthDate;

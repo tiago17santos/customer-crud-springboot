@@ -3,6 +3,7 @@ package com.techVerse.clienteCRUD.controller;
 import com.techVerse.clienteCRUD.dtos.ClientDto;
 import com.techVerse.clienteCRUD.entities.Client;
 import com.techVerse.clienteCRUD.services.ClientService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/clients")
@@ -33,17 +32,17 @@ public class ClientController {
     @GetMapping("/{id}")
     public ResponseEntity<ClientDto> getClientById(@PathVariable long id) {
         ClientDto client = clientService.findById(id);
-        if(client == null ){
+        if (client == null) {
             return ResponseEntity.notFound().build();
         }
-        return  ResponseEntity.ok(client);
+        return ResponseEntity.ok(client);
     }
 
     @PostMapping
-    public ResponseEntity<ClientDto> createClient(@RequestBody ClientDto client) {
+    public ResponseEntity<ClientDto> createClient(@Valid @RequestBody ClientDto client) {
         client = clientService.save(client);
-        if(client == null){
-            return ResponseEntity.badRequest().build();
+        if (client == null) {
+            return ResponseEntity.notFound().build();
         }
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(client.getId()).toUri();
@@ -51,8 +50,8 @@ public class ClientController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClientDto> updateClient(@PathVariable long id, @RequestBody ClientDto client) {
-        client = clientService.update(id,client);
+    public ResponseEntity<ClientDto> updateClient(@Valid @PathVariable long id, @RequestBody ClientDto client) {
+        client = clientService.update(id, client);
         if (client == null) {
             return ResponseEntity.notFound().build();
         }
